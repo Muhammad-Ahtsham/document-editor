@@ -25,27 +25,27 @@ router.post(
     }
 
     if (!user) {
-        return res.status(401).json({
-            success: false,
-            message: "User not authenticated"
-        });
+      return res.status(401).json({
+        success: false,
+        message: "User not authenticated"
+      });
     }
 
     const session = liveblocks.prepareSession(
       user.id,
       {
-       userInfo: {
-                name: user?.name as string,
-                email: user?.email as string,
-                avatar: user?.photo?.imageUrl as string
+        userInfo: {
+          name: user?.name as string,
+          email: user?.email as string,
+          avatar: user?.photo?.imageUrl as string
 
-            }
+        }
       }
     );
 
     session.allow(room, session.FULL_ACCESS);
     const { status, body } = await session.authorize();
-    
+
     return res.status(status).end(body);
   })
 );

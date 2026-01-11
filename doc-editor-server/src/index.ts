@@ -1,14 +1,15 @@
-import express from "express";
 import { configDotenv } from "dotenv";
+configDotenv();
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import express from "express";
 import connectDb from "./config/connectDb";
 import DocContentRoutes from "./routes/docContent";
 import DocumentRouter from './routes/document';
 import liveblocksRouter from './routes/liveblocks';
 import UserRoutes from "./routes/user";
+
 const app = express();
-configDotenv();
 app.use(express.json());
 app.use(cors())
 app.use(express.urlencoded({ extended: true }));
