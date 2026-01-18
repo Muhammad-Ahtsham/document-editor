@@ -23,7 +23,8 @@ const Profile = () => {
 
   const [uploadProfileImage, { isLoading: isUploading }] =
     useUploadProfileImageMutation();
-  const [deleteProfileImage,{isLoading:isDeleting}] = useDeleteProfileImageMutation();
+  const [deleteProfileImage, { isLoading: isDeleting }] =
+    useDeleteProfileImageMutation();
   useEffect(() => {
     let objectUrl: string | null = null;
 
@@ -48,7 +49,7 @@ const Profile = () => {
   };
 
   const clearProfilePic = async (e: React.MouseEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     deleteProfileImage();
     setFile(null);
     setPreview(null);
@@ -100,7 +101,7 @@ const Profile = () => {
       <Button
         variant="ghost"
         className="self-end hover:text-red-700 bg-none border-none outline-none"
-        onClick={(e)=>clearProfilePic(e)}
+        onClick={(e) => clearProfilePic(e)}
         disabled={isUploading || isDeleting}
       >
         <Trash2 />

@@ -11,9 +11,11 @@ import {
 import {
   ClientSideSuspense,
   LiveblocksProvider,
-  RoomProvider,
+  RoomProvider
 } from "@liveblocks/react";
 
+import Header from "@/components/Header";
+import Threads from "@/components/Threads";
 import {
   useCallback,
   useContext,
@@ -25,7 +27,6 @@ import {
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DocEditor from "../components/DocEditor";
-import Header from "@/components/Header";
 
 const Document = () => {
   const { id } = useParams();
@@ -42,6 +43,7 @@ const Document = () => {
   const [exportDocument] = useExportDocumentMutation();
   const navigate = useNavigate();
   const getUser = useContext(AuthContext);
+
 
   useEffect(() => {
     if (documentContent?.docContent?.content && docContent === null) {
@@ -70,18 +72,20 @@ const Document = () => {
 
   useEffect(() => {
     if (!document || !getUser) return;
+    const loadDocumentInfo = async () => {
+      const isMember = await documentinfo?.document?.member
+        .map((user) => user._id)
+        .includes(getUser.id);
+      const isOwner = (await documentinfo?.document?.ownerId) === getUser.id;
 
-    const isMember = documentinfo?.document?.member
-      .map((user) => user._id)
-      .includes(getUser.id);
-    const isOwner = documentinfo?.document?.ownerId === getUser.id;
-
-    if (
-      (!isMember && !isOwner) ||
-      (documentinfo?.document?.isPrivate && !isOwner)
-    ) {
-      navigate("/");
-    }
+      if (
+        (!isMember && !isOwner) ||
+        (documentinfo?.document?.isPrivate && !isOwner)
+      ) {
+        navigate("/");
+      }
+    };
+    loadDocumentInfo();
   }, [documentinfo, getUser, navigate]);
 
   const handleDocContentSave = useCallback(async () => {
@@ -118,9 +122,8 @@ const Document = () => {
         setIsPrivate(!value);
       }
     },
-    [documentinfo, getUser, id, updateIsPrivate]
+    [documentinfo, getUser, id, updateIsPrivate],
   );
-
   const initialIsPrivate = useMemo(() => {
     return documentinfo?.document?.isPrivate || false;
   }, [documentinfo?.document?.isPrivate]);
@@ -142,7 +145,7 @@ const Document = () => {
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center overflow-x-hidden ">
       {(isUpdating || isUpdatingPrivate) && (
         <div className="fixed z-50 top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded shadow">
           Saving...
@@ -152,7 +155,7 @@ const Document = () => {
         authEndpoint="/api/liveblocks/liveblocks-auth"
         resolveUsers={async ({ userIds }) => {
           const searchParams = new URLSearchParams(
-            userIds.map((userId) => ["userIds", userId])
+            userIds.map((userId) => ["userIds", userId]),
           );
           const response = await fetch(`/api/users?${searchParams}`);
 
@@ -186,11 +189,14 @@ const Document = () => {
                   handleIsPrivate={handleIsPrivate}
                 />
               )}
-              <DocEditor
-                documentContent={documentContent}
-                setDocContent={setDocContent}
-                setText={setText}
-              />
+              <div className="flex justify-center  w-full gap-[4rem]">
+                <DocEditor
+                  documentContent={documentContent}
+                  setDocContent={setDocContent}
+                  setText={setText}
+                />
+              <Threads />
+              </div>
             </div>
           </ClientSideSuspense>
         </RoomProvider>

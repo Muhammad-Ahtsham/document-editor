@@ -22,7 +22,6 @@ import React, {
   type Dispatch,
   type SetStateAction,
 } from "react";
-
 interface HeaderProps {
   documentContent: CreateDocContentResponse;
   setDocContent: Dispatch<SetStateAction<string | null>>;
@@ -43,7 +42,7 @@ const DocEditor = ({
   const lastSavedContentRef = useRef<string>("");
   const [isEditorReady, setIsEditorReady] = useState(false);
   const editorReadyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null
+    null,
   );
 
   const extensions = useMemo(() => {
@@ -95,7 +94,7 @@ const DocEditor = ({
         }, 1000);
       },
     }),
-    [extensions, setDocContent]
+    [extensions, setDocContent],
   );
 
   const editor = useEditor(editorConfig);
@@ -213,12 +212,13 @@ const DocEditor = ({
       <Toolbar
         className="w-30"
         style={{
-          width: "40rem",
+          width: "30rem",
           display: "flex",
           justifyContent: "center",
           gap: "1rem",
           borderRadius: "0.3rem",
-          boxShadow: "solid black 3px",
+          boxShadow: "solid black 10px",
+          padding: "0.5rem",
         }}
         editor={editor}
       >
@@ -236,8 +236,6 @@ const DocEditor = ({
           onClick={safeToggleHighlight}
         />
         <Toolbar.SectionInline />
-        <Toolbar.Separator />
-        <Toolbar.SectionCollaboration />
       </Toolbar>
     );
   }, [editor, isEditorReady, safeToggleHeading, safeToggleHighlight]);
@@ -251,7 +249,7 @@ const DocEditor = ({
           <FloatingComposer editor={editor} style={{ width: "350px" }} />
           <FloatingToolbar editor={editor}>
             <Toolbar.BlockSelector />
-            <Toolbar.SectionHistory/>
+            <Toolbar.SectionHistory />
             <Toolbar.SectionInline />
             <Toolbar.Separator />
             <Toolbar.SectionCollaboration />
