@@ -71,7 +71,7 @@ const Document = () => {
   }, [docContent, id, updateDocContent, documentContent]);
 
   useEffect(() => {
-    if (!document || !getUser) return;
+    if (!documentinfo?.document || !getUser) return;
     const loadDocumentInfo = async () => {
       const isMember = await documentinfo?.document?.member
         .map((user) => user._id)

@@ -218,7 +218,6 @@ const DocEditor = ({
           gap: "1rem",
           borderRadius: "0.3rem",
           boxShadow: "solid black 10px",
-          padding: "0.5rem",
         }}
         editor={editor}
       >
@@ -242,11 +241,10 @@ const DocEditor = ({
 
   return (
     <>
-      <div className="flex flex-col  items-center">
-        <div className="fixed z-10">{toolbar}</div>
-        <div className="mt-20 contents self-center w-full max-w-4xl">
+      <div className="flex flex-col  items-center gap-3">
+        <div className="z-10">{toolbar}</div>
+        <div className="contents self-center w-full max-w-4xl">
           <EditorContent editor={editor} className="" />
-          <FloatingComposer editor={editor} style={{ width: "350px" }} />
           <FloatingToolbar editor={editor}>
             <Toolbar.BlockSelector />
             <Toolbar.SectionHistory />
@@ -254,6 +252,10 @@ const DocEditor = ({
             <Toolbar.Separator />
             <Toolbar.SectionCollaboration />
           </FloatingToolbar>
+          <FloatingComposer
+            editor={editor}
+            style={{ width: "350px", zIndex: 100 }}
+          />
         </div>
       </div>
     </>

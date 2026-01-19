@@ -46,9 +46,9 @@ export const Home = () => {
 
     try {
       const result = await createDocument({ name: title }).unwrap();
-      if (result.success) {
+    
         navigate(`document/${result.document?._id}`);
-      }
+      
     } catch (error: any) {
       console.error("Failed to create document:", error);
       if (error.status === "FETCH_ERROR") {
