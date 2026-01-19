@@ -32,7 +32,7 @@ router.post(
     }
 
     const session = liveblocks.prepareSession(
-      user.email as string,
+      user.id,
       {
         userInfo: {
           name: user?.name as string,
