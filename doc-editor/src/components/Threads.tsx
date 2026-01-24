@@ -20,7 +20,7 @@ function Threads() {
   }
 
   return (
-    <div className="flex flex-col h-[30rem] w-[20rem] border-r border-gray-100 bg-gradient-to-b from-white to-gray-50/50">
+    <div className="flex flex-col h-[30rem] w-[20rem] border-r border-gray-100 bg-gradient-to-b from-white to-gray-50/50 sm:hidden lg:flex">
       <div className="flex items-center justify-between p-6 pb-4 border-b border-gray-100">
         <div className="flex items-center gap-2">
           <div className="relative">

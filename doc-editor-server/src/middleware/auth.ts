@@ -8,13 +8,15 @@ export const auth = (req: AuthRequest, res: Response, next: NextFunction) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
   try {
-    const tokenUser = verify(token, process.env.JWT_SECRET as string,) as UserPayload;
-    const { _id, email, name, photo } = tokenUser.user;
+    const user = verify(token, process.env.JWT_SECRET as string,) as UserPayload;
+    const { userPayload } = user;
     req.user = {
-      id: _id,
-      photo: photo,
-      email,
-      name,
+      id: userPayload.id,
+      email: userPayload.email,
+      name: userPayload.name,
+      photo: userPayload.photo,
+      avatar: userPayload.avatar as string,
+
     };
     next();
   } catch (error) {

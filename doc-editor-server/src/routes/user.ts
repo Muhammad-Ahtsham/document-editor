@@ -18,7 +18,7 @@ router.post("/signup", async (req: Request, res: Response) => {
     });
   }
   try {
-    const isExist = await User.findOne({ email });
+    const isExist = await User.findOne({ email }).select("+password");
     if (isExist) {
       return res.status(400).json({
         success: false,
@@ -31,11 +31,13 @@ router.post("/signup", async (req: Request, res: Response) => {
       password,
     });
 
-    const token = sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET as string,
-      { expiresIn: "24h" }
-    );
+    const userPayload = {
+      id: user._id,
+      email: user.email as string,
+      photo: user?.photo,
+      avatar: user.photo?.imageUrl,
+    }
+    const token = sign({ userPayload }, process.env.JWT_SECRET as string);
 
     res.cookie("token", token, {
       httpOnly: true,
@@ -60,16 +62,21 @@ router.post("/login", async (req: Request, res: Response) => {
     });
   }
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) return res.status(401).json({ message: "Invalid credentials" });
 
     const isMatch = await user.comparePassword(password);
-
     if (!isMatch)
       return res.status(401).json({ message: "Invalid credentials" });
-
-    const token = sign({ user }, process.env.JWT_SECRET as string);
+    const userPayload = {
+      id: user._id,
+      name:user.name as string,
+      email: user.email as string,
+      photo: user?.photo,
+      avatar: user.photo?.imageUrl,
+    }
+    const token = sign({ userPayload }, process.env.JWT_SECRET as string);
     res.cookie("token", token, {
       httpOnly: true,
     });
@@ -112,7 +119,7 @@ router.patch(
   TryCatch(async (req: AuthRequest, res: Response) => {
     const { name, email, currentPassword, newPassword } = req.body;
 
-    const user = await User.findById(req.user?.id);
+    const user = await User.findById(req.user?.id).select("+password");
     if (!user) {
       return res.status(404).json({
         success: false,

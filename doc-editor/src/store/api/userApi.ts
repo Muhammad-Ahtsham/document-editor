@@ -6,24 +6,29 @@ export const userApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: "/api/user/"
     }),
+    tagTypes: ["User"],
     endpoints: (builder) => ({
         getUser: builder.query({
-            query: () => "me"
+            query: () => "me",
+            providesTags: ["User"]
         }),
         updateUserProfile: builder.mutation<UserProfile, UpdateUserProfile>({
-            query: (data) => ({ 
+            query: (data) => ({
                 url: "update",
                 method: "PATCH",
                 body: data,
                 credentials: "include"
-            })
+
+            }),
+            invalidatesTags: ["User"],
         }),
         uploadProfileImage: builder.mutation<UploadResponse, FormData>({
             query: (data) => ({
                 url: "upload/photo",
                 method: "POST",
                 body: data,
-                credentials: "include"
+                credentials: "include",
+                invalidatesTags: ["User"],
             })
         }),
         deleteProfileImage: builder.mutation<{ success: boolean; message: string }, void>({
@@ -31,8 +36,8 @@ export const userApi = createApi({
                 url: "delete/photo",
                 method: "DELETE",
                 credentials: "include"
-            })
-
+            }),
+            invalidatesTags: ["User"],
         }
         ),
 

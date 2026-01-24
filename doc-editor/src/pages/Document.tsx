@@ -11,7 +11,7 @@ import {
 import {
   ClientSideSuspense,
   LiveblocksProvider,
-  RoomProvider
+  RoomProvider,
 } from "@liveblocks/react";
 
 import Header from "@/components/Header";
@@ -30,6 +30,7 @@ import DocEditor from "../components/DocEditor";
 
 const Document = () => {
   const { id } = useParams();
+
   const { data: documentinfo, isLoading: isLoadingDocument } =
     useGetDocumentQuery(id!);
   const { data: documentContent, isLoading: isLoadingContent } =
@@ -43,8 +44,6 @@ const Document = () => {
   const [exportDocument] = useExportDocumentMutation();
   const navigate = useNavigate();
   const getUser = useContext(AuthContext);
-
-
   useEffect(() => {
     if (documentContent?.docContent?.content && docContent === null) {
       setDocContent(documentContent.docContent.content);
@@ -73,11 +72,10 @@ const Document = () => {
   useEffect(() => {
     if (!documentinfo?.document || !getUser) return;
     const loadDocumentInfo = async () => {
-      const isMember = await documentinfo?.document?.member
+      const isMember = documentinfo?.document?.member
         .map((user) => user._id)
         .includes(getUser.id);
-      const isOwner = (await documentinfo?.document?.ownerId) === getUser.id;
-
+      const isOwner = documentinfo?.document?.ownerId === getUser.id;
       if (
         (!isMember && !isOwner) ||
         (documentinfo?.document?.isPrivate && !isOwner)
@@ -157,7 +155,9 @@ const Document = () => {
           const searchParams = new URLSearchParams(
             userIds.map((userId) => ["userIds", userId]),
           );
-          const response = await fetch(`/api/users?${searchParams}`);
+          const response = await fetch(
+            `/api/liveblocks/liveblocks/users?${searchParams}`,
+          );
 
           if (!response.ok) {
             throw new Error("Problem resolving users");
@@ -189,13 +189,13 @@ const Document = () => {
                   handleIsPrivate={handleIsPrivate}
                 />
               )}
-              <div className="flex justify-center  w-full gap-[4rem]">
+              <div className="flex justify-center w-full gap-[4rem]">
                 <DocEditor
                   documentContent={documentContent}
                   setDocContent={setDocContent}
                   setText={setText}
                 />
-              <Threads />
+                <Threads />
               </div>
             </div>
           </ClientSideSuspense>

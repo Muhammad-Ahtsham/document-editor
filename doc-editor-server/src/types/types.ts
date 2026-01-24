@@ -7,6 +7,7 @@ export interface UserPayload extends JwtPayload {
     imageUrl: string;
     publicId: string
   }
+  avatar?:string;
   email: string;
   name?: string;
   role?: string;

@@ -99,7 +99,6 @@ const Header = ({
         .filter(Boolean),
     [others, getUser?.email]
   );
-
   return (
     <div className="h-20  w-screen flex items-center text-white px-6 sticky top-0 left-0 right-0 z-5 justify-between">
       <div className="flex gap-2 items-center">

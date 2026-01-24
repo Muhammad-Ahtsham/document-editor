@@ -37,7 +37,6 @@ router.get(
   TryCatch(async (req: AuthRequest, res: Response) => {
     const { documentId } = req.query;
     const userId = req.user?.id as string;
-
     if (!documentId || !Types.ObjectId.isValid(documentId as string)) {
       return res.status(400).json({
         success: false,
