@@ -42,7 +42,7 @@ router.post("/signup", async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
@@ -79,6 +79,7 @@ router.post("/login", async (req: Request, res: Response) => {
     const token = sign({ userPayload }, process.env.JWT_SECRET as string);
     res.cookie("token", token, {
       httpOnly: true,
+      sameSite: "none",
     });
     res.json({
       user,
