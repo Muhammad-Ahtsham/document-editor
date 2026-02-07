@@ -1,11 +1,11 @@
 import type { CreateDocContentResponse } from "@/types/types";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
-import { createApi } from "@reduxjs/toolkit/query/react"; // Fixed import
-
+import { createApi } from "@reduxjs/toolkit/query/react";
+const API = import.meta.env.VITE_API_URL;
 export const DocContentApi = createApi({
   reducerPath: "DocContentApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/docContent/",
+    baseUrl: `${API}/docContent/`,
   }),
 
   endpoints: (builder) => ({

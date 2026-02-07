@@ -1,10 +1,10 @@
 import type { CreateDocumentResponse, Document, GetDocument } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
+const API = import.meta.env.VITE_API_URL;
 export const documentApi = createApi({
   reducerPath: "documentApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/document/",
+    baseUrl: `${API}/document/`,
   }),
   tagTypes: ["Document"],
 
