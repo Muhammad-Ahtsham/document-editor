@@ -41,7 +41,7 @@ router.post("/signup", async (req: Request, res: Response) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+       secure: true,
       sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000,
     });
@@ -71,7 +71,7 @@ router.post("/login", async (req: Request, res: Response) => {
       return res.status(401).json({ message: "Invalid credentials" });
     const userPayload = {
       id: user._id,
-      name:user.name as string,
+      name: user.name as string,
       email: user.email as string,
       photo: user?.photo,
       avatar: user.photo?.imageUrl,
@@ -80,6 +80,7 @@ router.post("/login", async (req: Request, res: Response) => {
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "none",
+      secure: true,
     });
     res.json({
       user,
@@ -96,7 +97,7 @@ router.get(
     res.clearCookie('token', {
       httpOnly: true,
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
-      path: '/',
+      secure: process.env.NODE_ENV === 'production',
     });
     res.status(200).json({ message: "Logout sucessfully" });
   })
