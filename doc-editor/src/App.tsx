@@ -1,10 +1,11 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import Document from "./pages/Document";
 import { Home } from "./pages/Home";
 import Login from "./pages/Login";
 import Auth from "./components/Auth";
-import Signup from "./pages/SignUp";
+import { lazy } from "react";
+const Signup = lazy(() => import("./pages/SignUp"));
+const Document = lazy(() => import("./pages/Document")); 
 function App() {
   return (
     <>

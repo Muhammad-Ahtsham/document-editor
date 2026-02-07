@@ -1,4 +1,4 @@
-import type { UpdateUserProfile, UploadResponse, UserProfile } from "@/types/types";
+import type { UpdateUserProfile, UploadResponse, User, UserProfile } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const userApi = createApi({
@@ -8,7 +8,17 @@ export const userApi = createApi({
     }),
     tagTypes: ["User"],
     endpoints: (builder) => ({
-        getUser: builder.query({
+        login: builder.mutation<{ success: boolean, user: User }, { email: string; password: string }>({
+            query: (data) => ({
+                url: "login",
+                method: "POST",
+                body: data,
+                credentials: "include"
+
+            }),
+            invalidatesTags: ["User"],
+        }),
+        getUser: builder.query<User, "">({
             query: () => "me",
             providesTags: ["User"]
         }),
@@ -45,4 +55,4 @@ export const userApi = createApi({
 
 })
 
-export const { useGetUserQuery, useUploadProfileImageMutation, useDeleteProfileImageMutation, useUpdateUserProfileMutation } = userApi
+export const { useLoginMutation, useGetUserQuery, useUploadProfileImageMutation, useDeleteProfileImageMutation, useUpdateUserProfileMutation } = userApi
