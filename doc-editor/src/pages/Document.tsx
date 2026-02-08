@@ -27,9 +27,6 @@ import {
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DocEditor from "../components/DocEditor";
-const LIVEBLOCKS_AUTH_ENDPOINT = import.meta.env.PROD
-  ? `${import.meta.env.VITE_API_URL}/liveblocks/liveblocks-auth`
-  : "/api/liveblocks/liveblocks-auth";
 const USERS_ENDPOINT = import.meta.env.PROD
   ? `${import.meta.env.VITE_API_URL}/liveblocks/liveblocks/users`
   : "/api/liveblocks/liveblocks/users";
@@ -146,6 +143,31 @@ const Document = () => {
       </div>
     );
   }
+    const authEndpoint = useCallback(async (room?: string) => {
+    const endpoint = import.meta.env.PROD
+      ? `${import.meta.env.VITE_API_URL}/liveblocks/liveblocks-auth`
+      : '/api/liveblocks/liveblocks-auth';
+    
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ room }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`Liveblocks auth failed: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error("Liveblocks authentication error:", error);
+      throw error;
+    }
+  }, []);
 
   return (
     <div className="flex flex-col items-center overflow-x-hidden ">
@@ -155,7 +177,7 @@ const Document = () => {
         </div>
       )}
       <LiveblocksProvider
-        authEndpoint={LIVEBLOCKS_AUTH_ENDPOINT}
+        authEndpoint={authEndpoint}
         resolveUsers={async ({ userIds }) => {
           const searchParams = new URLSearchParams(
             userIds.map((userId) => ["userIds", userId]),
@@ -170,6 +192,7 @@ const Document = () => {
           return users;
         }}
       >
+    
         <RoomProvider
           id={id!}
           initialPresence={{
