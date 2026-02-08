@@ -52,9 +52,7 @@ router.post(
   }),
 );
 router.get(
-  "/liveblocks/users",
-  auth,
-  TryCatch(async (req, res) => {
+  "/liveblocks/users",TryCatch(async (req, res) => {
     const { userIds } = req.query;
 
     const users = await User.find({
