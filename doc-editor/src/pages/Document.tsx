@@ -128,7 +128,7 @@ const Document = () => {
   return import.meta.env.PROD
       ? `${import.meta.env.VITE_API_URL}/liveblocks/liveblocks-auth?userId=${getUser?.id}`
       : `/api/liveblocks/liveblocks-auth?userId=${getUser?.id}`;
-  },[])
+  },[getUser])
   const initialIsPrivate = useMemo(() => {
     return documentinfo?.document?.isPrivate || false;
   }, [documentinfo?.document?.isPrivate]);
