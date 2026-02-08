@@ -7,6 +7,7 @@ export const documentApi = createApi({
   reducerPath: "documentApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${API_URL}/document/`,
+    credentials: "include",
   }),
   tagTypes: ["Document"],
 
@@ -26,7 +27,7 @@ export const documentApi = createApi({
         url: "create",
         method: "POST",
         body: newDocument,
-        credentials: "include",
+        // credentials: "include",
       }),
       invalidatesTags: ["Document"],
     }),
@@ -35,7 +36,7 @@ export const documentApi = createApi({
       query: (id) => ({
         url: `delete/${id}`,
         method: "DELETE",
-        credentials: "include",
+        // credentials: "include",
       }),
       invalidatesTags: ["Document"],
 
@@ -46,7 +47,7 @@ export const documentApi = createApi({
         url: `addmember/${documentId}`,
         method: "PUT",
         body: { email },
-        credentials: "include",
+        // credentials: "include",
       }),
       invalidatesTags: ["Document"],
 
@@ -55,7 +56,7 @@ export const documentApi = createApi({
       query: ({ documentId, memberId }) => ({
         url: `documents/${documentId}/member/${memberId}`,
         method: "DELETE",
-        credentials: "include",
+        // credentials: "include",
       }),
       invalidatesTags: ["Document"],
     }),
@@ -63,7 +64,7 @@ export const documentApi = createApi({
       query: ({ id }) => ({
         url: `public/${id}`,
         method: "PUT",
-        credentials: "include"
+        // credentials: "include"
       }),
       invalidatesTags: ["Document"]
     })

@@ -1,12 +1,13 @@
 import type { UpdateUserProfile, UploadResponse, User, UserProfile } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-const API_URL = import.meta.env.PROD 
-  ? import.meta.env.VITE_API_URL 
-  : '/api';
+const API_URL = import.meta.env.PROD
+    ? import.meta.env.VITE_API_URL
+    : '/api';
 export const userApi = createApi({
     reducerPath: "userApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: `${API_URL}/user/`
+        baseUrl: `${API_URL}/user/`,
+        credentials: "include"
     }),
     tagTypes: ["User"],
     endpoints: (builder) => ({
@@ -15,21 +16,21 @@ export const userApi = createApi({
                 url: "login",
                 method: "POST",
                 body: data,
-                credentials: "include"
+                // credentials: "include"
 
             }),
             invalidatesTags: ["User"],
         }),
         getUser: builder.query<User, "">({
             query: () => "me",
-            providesTags: ["User"]
+            providesTags: ["User"],
         }),
         updateUserProfile: builder.mutation<UserProfile, UpdateUserProfile>({
             query: (data) => ({
                 url: "update",
                 method: "PATCH",
                 body: data,
-                credentials: "include"
+                // credentials: "include"
 
             }),
             invalidatesTags: ["User"],
@@ -39,7 +40,7 @@ export const userApi = createApi({
                 url: "upload/photo",
                 method: "POST",
                 body: data,
-                credentials: "include",
+                // credentials: "include",
                 invalidatesTags: ["User"],
             })
         }),
@@ -47,7 +48,7 @@ export const userApi = createApi({
             query: () => ({
                 url: "delete/photo",
                 method: "DELETE",
-                credentials: "include"
+                // credentials: "include"
             }),
             invalidatesTags: ["User"],
         }

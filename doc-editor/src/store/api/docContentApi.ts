@@ -8,6 +8,7 @@ export const DocContentApi = createApi({
   reducerPath: "DocContentApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${API_URL}/docContent/`,
+    credentials:"include"
   }),
 
   endpoints: (builder) => ({
@@ -16,7 +17,7 @@ export const DocContentApi = createApi({
         url: "create",
         method: "POST",
         body: { documentId, content },
-        credentials: "include"
+        // credentials: "include"
       })
     }),
     getDocContent: builder.query<CreateDocContentResponse, { documentId: string }>({
@@ -24,7 +25,7 @@ export const DocContentApi = createApi({
         url: "get",
         method: "GET",
         params: { documentId },
-        credentials: "include"
+        // credentials: "include"
       })
     }),
     updateDocContent: builder.mutation<CreateDocContentResponse, { documentId: string; content: string }>({
@@ -32,7 +33,7 @@ export const DocContentApi = createApi({
         url: "update",
         method: "PUT",
         body: { documentId, content },
-        credentials: "include"
+        // credentials: "include"
       })
     }),
     exportDocument: builder.mutation<Blob, { html: string; title: string }>({
@@ -40,7 +41,7 @@ export const DocContentApi = createApi({
         url: "export/docx",
         method: "POST",
         body: { html, title },
-        credentials: "include",
+        // credentials: "include",
         responseHandler: (response) => response.blob(),
       }),
     })
