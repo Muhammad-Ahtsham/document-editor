@@ -124,6 +124,11 @@ const Document = () => {
     },
     [documentinfo, getUser, id, updateIsPrivate],
   );
+  const authEndpoint = useMemo(()=>{
+  return import.meta.env.PROD
+      ? `${import.meta.env.VITE_API_URL}/liveblocks/liveblocks-auth?userId=${getUser?.id}`
+      : `/api/liveblocks/liveblocks-auth?userId=${getUser?.id}`;
+  },[])
   const initialIsPrivate = useMemo(() => {
     return documentinfo?.document?.isPrivate || false;
   }, [documentinfo?.document?.isPrivate]);
@@ -143,31 +148,7 @@ const Document = () => {
       </div>
     );
   }
-    const authEndpoint = useCallback(async (room?: string) => {
-    const endpoint = import.meta.env.PROD
-      ? `${import.meta.env.VITE_API_URL}/liveblocks/liveblocks-auth`
-      : '/api/liveblocks/liveblocks-auth';
-    
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ room }),
-        credentials: "include",
-      });
 
-      if (!response.ok) {
-        throw new Error(`Liveblocks auth failed: ${response.status}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error("Liveblocks authentication error:", error);
-      throw error;
-    }
-  }, []);
 
   return (
     <div className="flex flex-col items-center overflow-x-hidden ">
