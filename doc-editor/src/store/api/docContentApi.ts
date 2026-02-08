@@ -1,11 +1,13 @@
 import type { CreateDocContentResponse } from "@/types/types";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 import { createApi } from "@reduxjs/toolkit/query/react";
-const API = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.PROD
+  ? import.meta.env.VITE_API_URL
+  : '/api';
 export const DocContentApi = createApi({
   reducerPath: "DocContentApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${API}/docContent/`,
+    baseUrl: `${API_URL}/docContent/`,
   }),
 
   endpoints: (builder) => ({
@@ -33,7 +35,7 @@ export const DocContentApi = createApi({
         credentials: "include"
       })
     }),
-    exportDocument: builder.mutation<Blob,{ html: string; title: string }>({
+    exportDocument: builder.mutation<Blob, { html: string; title: string }>({
       query: ({ html, title }) => ({
         url: "export/docx",
         method: "POST",

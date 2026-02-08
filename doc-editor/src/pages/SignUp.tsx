@@ -21,7 +21,10 @@ const SignUp  = () => {
       return;
     }  
     setIsLoading(true);
-    const response = await fetch("/api/user/signup", {
+    const API_URL = import.meta.env.PROD
+  ? import.meta.env.VITE_API_URL
+  : '/api';
+    const response = await fetch(`${API_URL}/user/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

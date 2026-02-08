@@ -1,10 +1,12 @@
 import type { UpdateUserProfile, UploadResponse, User, UserProfile } from "@/types/types";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-const API = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.PROD 
+  ? import.meta.env.VITE_API_URL 
+  : '/api';
 export const userApi = createApi({
     reducerPath: "userApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: `${API}/user/`
+        baseUrl: `${API_URL}/user/`
     }),
     tagTypes: ["User"],
     endpoints: (builder) => ({
