@@ -27,7 +27,9 @@ import {
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DocEditor from "../components/DocEditor";
-
+const LIVEBLOCKS_AUTH_ENDPOINT = import.meta.env.PROD
+  ? `${import.meta.env.VITE_API_URL}/liveblocks/liveblocks-auth`
+  : '/api/liveblocks/liveblocks-auth';
 const Document = () => {
   const { id } = useParams();
 
@@ -150,7 +152,7 @@ const Document = () => {
         </div>
       )}
       <LiveblocksProvider
-        authEndpoint="/api/liveblocks/liveblocks-auth"
+        authEndpoint={LIVEBLOCKS_AUTH_ENDPOINT}
         resolveUsers={async ({ userIds }) => {
           const searchParams = new URLSearchParams(
             userIds.map((userId) => ["userIds", userId]),
