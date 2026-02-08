@@ -156,11 +156,7 @@ const Document = () => {
             userIds.map((userId) => ["userIds", userId]),
           );
           const response = await fetch(
-            `/api/liveblocks/liveblocks/users?${searchParams}`,
-            {
-              credentials: "include",
-            },
-          );
+            `/api/liveblocks/liveblocks/users?${searchParams}`);
 
           if (!response.ok) {
             throw new Error("Problem resolving users");
