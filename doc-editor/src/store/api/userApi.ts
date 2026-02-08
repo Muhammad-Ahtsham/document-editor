@@ -21,7 +21,7 @@ export const userApi = createApi({
             }),
             invalidatesTags: ["User"],
         }),
-        getUser: builder.query<User, "">({
+        getUser: builder.query<{ success: boolean, user: User }, "">({
             query: () => "me",
             providesTags: ["User"],
         }),

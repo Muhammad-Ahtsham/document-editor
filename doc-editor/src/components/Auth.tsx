@@ -24,17 +24,16 @@ const Auth = ({ children }: AuthProps) => {
       </div>
     );
   }
-
   if (!user) {
     return <Login />;
   }
   return (
     <AuthContext.Provider
       value={{
-        photo: user?.photo?.imageUrl,
-        email: user.email,
-        id: user._id.toString(),
-        name: user.name,
+        photo: user?.user.photo?.imageUrl,
+        email: user?.user.email,
+        id: user?.user._id.toString(),
+        name: user?.user.name,
       }}
     >
       {children}
