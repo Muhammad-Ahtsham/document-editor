@@ -157,6 +157,9 @@ const Document = () => {
           );
           const response = await fetch(
             `/api/liveblocks/liveblocks/users?${searchParams}`,
+            {
+              credentials: "include",
+            },
           );
 
           if (!response.ok) {
