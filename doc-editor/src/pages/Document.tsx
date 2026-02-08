@@ -29,7 +29,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import DocEditor from "../components/DocEditor";
 const LIVEBLOCKS_AUTH_ENDPOINT = import.meta.env.PROD
   ? `${import.meta.env.VITE_API_URL}/liveblocks/liveblocks-auth`
-  : '/api/liveblocks/liveblocks-auth';
+  : "/api/liveblocks/liveblocks-auth";
+const USERS_ENDPOINT = import.meta.env.PROD
+  ? `${import.meta.env.VITE_API_URL}/liveblocks/liveblocks/users`
+  : "/api/liveblocks/liveblocks/users";
 const Document = () => {
   const { id } = useParams();
 
@@ -157,8 +160,7 @@ const Document = () => {
           const searchParams = new URLSearchParams(
             userIds.map((userId) => ["userIds", userId]),
           );
-          const response = await fetch(
-            `/api/liveblocks/liveblocks/users?${searchParams}`);
+          const response = await fetch(`${USERS_ENDPOINT}?${searchParams}`);
 
           if (!response.ok) {
             throw new Error("Problem resolving users");
