@@ -43,7 +43,7 @@ This project supports real-time multi-user editing with live cursors, presence i
 
 | Layer        | Technology |
 |--------------|------------|
-| Frontend     | React, fTailwind CSS |
+| Frontend     | React, Tailwind CSS |
 | Language     | TypeScript |
 | Real-Time    | Liveblocks (CRDTs) |
 | Backend      | Node.js, Express.js |
