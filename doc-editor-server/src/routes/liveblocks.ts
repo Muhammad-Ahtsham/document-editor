@@ -1,9 +1,9 @@
 import { Liveblocks } from "@liveblocks/node";
 import { Response, Router } from "express";
-import mongoose from "mongoose";
-import User from "../model/user";
+import { auth } from "../middleware/auth";
 import { AuthRequest } from "../types/types";
 import TryCatch from "../utility/feature";
+import User from "../model/user";
 
 const router = Router();
 
@@ -13,10 +13,11 @@ const liveblocks = new Liveblocks({
 
 router.post(
   "/liveblocks-auth",
+  auth,
   TryCatch(async (req: AuthRequest, res: Response) => {
-    const { userId } = req.query
+    const user = req.user;
     const { room } = req.body;
-    const user = await User.findOne(new mongoose.Types.ObjectId(userId as string));
+
     function getRandomHexColor(): string {
       return `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
     }
@@ -35,12 +36,11 @@ router.post(
         message: "User not authenticated",
       });
     }
-    const user_id = user._id
-    const session = liveblocks.prepareSession(user_id.toString(), {
+    const session = liveblocks.prepareSession(user.id, {
       userInfo: {
         name: user?.name as string,
         email: user?.email as string,
-        avatar: user.photo?.imageUrl as string,
+        avatar: user?.avatar,
         color: randomColor
       },
     });
@@ -52,7 +52,7 @@ router.post(
   }),
 );
 router.get(
-  "/liveblocks/users", TryCatch(async (req, res) => {
+  "/liveblocks/users",TryCatch(async (req, res) => {
     const { userIds } = req.query;
 
     const users = await User.find({
