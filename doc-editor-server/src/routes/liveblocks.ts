@@ -12,9 +12,7 @@ const liveblocks = new Liveblocks({
 });
 
 router.post(
-  "/liveblocks-auth",
-  auth,
-  TryCatch(async (req: AuthRequest, res: Response) => {
+  "/liveblocks-auth", TryCatch(async (req: AuthRequest, res: Response) => {
     const user = req.user;
     const { room } = req.body;
 
