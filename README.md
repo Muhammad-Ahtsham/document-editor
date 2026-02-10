@@ -76,5 +76,3 @@ Strict **TypeScript interfaces** define:
 This prevents runtime errors when multiple clients update shared state simultaneously.
 
 
-npm install
-
