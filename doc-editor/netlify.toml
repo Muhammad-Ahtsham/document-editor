@@ -1,5 +1,0 @@
-[[redirects]]
-  from = "/api/*"
-  to = "https://document-editor-2d1k.onrender.com/:splat"
-  status = 200
-  force = true
