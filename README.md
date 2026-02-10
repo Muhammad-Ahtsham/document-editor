@@ -75,10 +75,6 @@ Strict **TypeScript interfaces** define:
 
 This prevents runtime errors when multiple clients update shared state simultaneously.
 
----
 
-## 🚀 Getting Started
+npm install
 
-### Clone the Repository
-```bash
-git clone https://github.com/Muhammad-Ahtsham/document-editor.git
