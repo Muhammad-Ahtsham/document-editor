@@ -68,4 +68,20 @@ router.get(
     );
   }),
 );
+
+router.delete("/liveblocks/room", TryCatch(async (req, res) => {
+  const { roomId } = req.query;
+  if (!roomId) {
+    return res.status(400).json({
+      success: false,
+      message: "RoomId is required"
+    })
+  }
+  await liveblocks.deleteRoom(roomId as string);
+  return res.status(200).json({
+    success: true,
+    message: "Room deleted successfully"
+  })
+
+}))
 export default router;
